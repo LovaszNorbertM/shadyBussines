@@ -39,16 +39,17 @@
 // console.log('Node.js web server at port 5000 is running..')
 
 
+var ip = require('ip');
 var express = require('express');
 
 var app = express();
 
 app.get("/",function(req,res){
-    res.end("Your IP address is " + req.ip);
+    res.end("Your IP address is " + ip.address());
 })
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log("Server running on port number" + PORT);
-})
+});

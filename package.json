@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/LovaszNorbertM/shadyBussines#readme",
   "dependencies": {
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "ip": "^1.1.8"
   }
 }
