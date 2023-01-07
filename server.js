@@ -46,6 +46,7 @@ const requestIp = require('request-ip');
 var app = express();
 app.set('trust proxy', true);
 app.use(requestIp.mw());
+app.use(express.static('static'));
 
 app.get("/",function(req,res) {
     const response = {
