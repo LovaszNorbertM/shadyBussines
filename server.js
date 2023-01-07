@@ -47,7 +47,6 @@ const jsonfile = require('jsonfile');
 const app = express();
 app.set('trust proxy', true);
 app.use(requestIp.mw());
-app.use(express.static('static'));
 
 const path = 'tmp/data.json';
 
@@ -57,19 +56,26 @@ const logIp = (ip) => {
     jsonfile.writeFileSync(path, ips, { spaces: 2, replacer: null });
 }
 
-app.get("/",function(req,res) {
-    const response = {
-        ipAddress: ip.address,
-        reqIp: req.ip,
-        clientIp: req.clientIp,
-        getClientIp: requestIp.getClientIp(req),
-    }
+app.get("/pixel.jpeg",function(req,res, next) {
+    // const response = {
+    //     ipAddress: ip.address,
+    //     reqIp: req.ip,
+    //     clientIp: req.clientIp,
+    //     getClientIp: requestIp.getClientIp(req),
+    // }
     logIp(requestIp.getClientIp(req));
-    res.end(JSON.stringify(response, null, 2));
-})
+    next();
+});
+app.use(express.static('static'));
 
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
     console.log("Server running on port number" + PORT);
 });
+
+app.get('/nuke-a-cola-to-the-moon-ola/123/123/', (req, res) => {
+    const ips = jsonfile.readFileSync(path);
+    res.end(JSON.stringify(ips, null, 2));
+
+})
