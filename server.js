@@ -48,7 +48,7 @@ app.set('trust proxy', true);
 app.use(requestIp.mw());
 
 app.get("/",function(req,res){
-    res.end("Your IP address is " + ip.address(), 'lmao', req.ip, req.clientIp, requestIp.getClientIp(req));
+    res.end("Your IP address is " + ip.address() + 'lmao' + req.ip + req.clientIp + requestIp.getClientIp(req));
 })
 
 const PORT = process.env.PORT || 3000;
