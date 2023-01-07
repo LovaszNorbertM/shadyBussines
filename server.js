@@ -50,9 +50,10 @@ app.use(requestIp.mw());
 
 const path = 'tmp/data.json';
 
-const logIp = (ip) => {
+const logIp = (req) => {
     const ips = jsonfile.readFileSync(path);
-    ips.push({ time: new Date(), ip });
+    const ip = requestIp.getClientIp(req)
+    ips.push({ time: new Date(), ip, forwarder:  req.headers['X-Forwarder-For'] || null});
     jsonfile.writeFileSync(path, ips, { spaces: 2, replacer: null });
 }
 
@@ -63,7 +64,8 @@ app.get("/pixel.jpeg",function(req,res, next) {
     //     clientIp: req.clientIp,
     //     getClientIp: requestIp.getClientIp(req),
     // }
-    logIp(requestIp.getClientIp(req));
+
+    logIp(req);
     next();
 });
 app.use(express.static('static'));
