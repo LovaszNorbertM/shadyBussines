@@ -43,6 +43,7 @@ const ip = require('ip');
 const express = require('express');
 const requestIp = require('request-ip');
 const jsonfile = require('jsonfile');
+var proxyaddr = require('proxy-addr')
 
 const app = express();
 app.set('trust proxy', true);
@@ -53,13 +54,18 @@ const path = 'tmp/data.json';
 const logIp = (req) => {
     const ips = jsonfile.readFileSync(path);
     const ip = requestIp.getClientIp(req)
-    ips.push({ time: new Date(), ip, forwarder:  req.headers['X-Forwarder-For'] || null});
+    ips.unshift({ 
+        time: new Date(), 
+        ip, 
+        forwarder:  req.headers['X-Forwarder-For'] || null,
+        proxyaddr: proxyaddr(req, true),
+    });
     jsonfile.writeFileSync(path, ips, { spaces: 2, replacer: null });
 }
 
 app.get("/pixel.jpeg",function(req,res, next) {
     // const response = {
-    //     ipAddress: ip.address,
+    //     ipAddress: ip.address,req
     //     reqIp: req.ip,
     //     clientIp: req.clientIp,
     //     getClientIp: requestIp.getClientIp(req),
