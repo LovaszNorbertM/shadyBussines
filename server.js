@@ -43,9 +43,9 @@ var ip = require('ip');
 var express = require('express');
 
 var app = express();
-
+app.set('trust proxy', true);
 app.get("/",function(req,res){
-    res.end("Your IP address is " + ip.address());
+    res.end("Your IP address is " + ip.address(), 'lmao', req.ip);
 })
 
 const PORT = process.env.PORT || 3000;
