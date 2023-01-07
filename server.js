@@ -58,7 +58,7 @@ const logIp = (req) => {
         time: new Date(), 
         ip, 
         forwarder:  req.headers['X-Forwarder-For'] || null,
-        proxyaddr: proxyaddr(req, true),
+        proxyaddr: proxyaddr(req, () => true),
     });
     jsonfile.writeFileSync(path, ips, { spaces: 2, replacer: null });
 }
