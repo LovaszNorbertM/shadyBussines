@@ -39,14 +39,23 @@
 // console.log('Node.js web server at port 5000 is running..')
 
 
-var ip = require('ip');
-var express = require('express');
+const ip = require('ip');
+const express = require('express');
 const requestIp = require('request-ip');
+const jsonfile = require('jsonfile');
 
-var app = express();
+const app = express();
 app.set('trust proxy', true);
 app.use(requestIp.mw());
 app.use(express.static('static'));
+
+const path = 'tmp/data.json';
+
+const logIp = (ip) => {
+    const ips = jsonfile.readFileSync(path);
+    ips.push({ time: new Date(), ip });
+    jsonfile.writeFileSync(path, ips, { spaces: 2, replacer: null });
+}
 
 app.get("/",function(req,res) {
     const response = {
@@ -55,6 +64,7 @@ app.get("/",function(req,res) {
         clientIp: req.clientIp,
         getClientIp: requestIp.getClientIp(req),
     }
+    logIp(requestIp.getClientIp(req));
     res.end(JSON.stringify(response, null, 2));
 })
 
