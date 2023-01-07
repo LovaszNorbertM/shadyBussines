@@ -47,8 +47,14 @@ var app = express();
 app.set('trust proxy', true);
 app.use(requestIp.mw());
 
-app.get("/",function(req,res){
-    res.end("Your IP address is " + ip.address() + 'lmao' + req.ip + req.clientIp + requestIp.getClientIp(req));
+app.get("/",function(req,res) {
+    const response = {
+        ipAddress: ip.address,
+        reqIp: req.ip,
+        clientIp: req.clientIp,
+        getClientIp: requestIp.getClientIp(req),
+    }
+    res.end(JSON.stringify(response, null, 2));
 })
 
 const PORT = process.env.PORT || 3000;
