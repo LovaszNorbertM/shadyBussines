@@ -78,7 +78,7 @@ const logHeaders = (req) => {
 
 }
 
-app.get("/masUiddFlagFS212",function(req,res, next) {
+app.get("/masUiddFlagFS212",function(req,res) {
     // const response = {
     //     ipAddress: ip.address,req
     //     reqIp: req.ip,
