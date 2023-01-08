@@ -51,16 +51,30 @@ app.use(requestIp.mw());
 
 const path = 'tmp/data.json';
 
-const logIp = (req) => {
-    const ips = jsonfile.readFileSync(path);
-    const ip = requestIp.getClientIp(req)
+// const logIp = (req) => {
+//     const ips = jsonfile.readFileSync(path);
+//     const ip = requestIp.getClientIp(req)
+//     ips.unshift({ 
+//         time: new Date(), 
+//         ip, 
+//         forwarder:  req.headers['X-Forwarder-For'] || null,
+//         proxyaddr: proxyaddr(req, () => true),
+//     });
+//     jsonfile.writeFileSync(path, ips, { spaces: 2, replacer: null });
+// }
+
+const logHeaders = (req) => {
+        const ips = jsonfile.readFileSync(path);
+    const headers = {
+        ...req.headers
+    };
+    
     ips.unshift({ 
         time: new Date(), 
-        ip, 
-        forwarder:  req.headers['X-Forwarder-For'] || null,
-        proxyaddr: proxyaddr(req, () => true),
+        headers,
     });
     jsonfile.writeFileSync(path, ips, { spaces: 2, replacer: null });
+
 }
 
 app.get("/pixel.jpeg",function(req,res, next) {
@@ -71,7 +85,8 @@ app.get("/pixel.jpeg",function(req,res, next) {
     //     getClientIp: requestIp.getClientIp(req),
     // }
 
-    logIp(req);
+    // logIp(req);
+    logHeaders(req);
     next();
 });
 app.use(express.static('static'));
