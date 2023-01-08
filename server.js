@@ -51,17 +51,17 @@ app.use(requestIp.mw());
 
 const path = 'tmp/data.json';
 
-// const logIp = (req) => {
-//     const ips = jsonfile.readFileSync(path);
-//     const ip = requestIp.getClientIp(req)
-//     ips.unshift({ 
-//         time: new Date(), 
-//         ip, 
-//         forwarder:  req.headers['X-Forwarder-For'] || null,
-//         proxyaddr: proxyaddr(req, () => true),
-//     });
-//     jsonfile.writeFileSync(path, ips, { spaces: 2, replacer: null });
-// }
+const logIp = (req) => {
+    const ips = jsonfile.readFileSync(path);
+    const ip = requestIp.getClientIp(req)
+    ips.unshift({ 
+        time: new Date(), 
+        ip, 
+        forwarder:  req.headers['X-Forwarder-For'] || null,
+        proxyaddr: proxyaddr(req, () => true),
+    });
+    jsonfile.writeFileSync(path, ips, { spaces: 2, replacer: null });
+}
 
 const logHeaders = (req) => {
         const ips = jsonfile.readFileSync(path);
@@ -72,12 +72,13 @@ const logHeaders = (req) => {
     ips.unshift({ 
         time: new Date(), 
         headers,
+        ...req.body,
     });
     jsonfile.writeFileSync(path, ips, { spaces: 2, replacer: null });
 
 }
 
-app.get("/pixel.jpeg",function(req,res, next) {
+app.get("/masUiddFlagFS212",function(req,res, next) {
     // const response = {
     //     ipAddress: ip.address,req
     //     reqIp: req.ip,
@@ -85,9 +86,9 @@ app.get("/pixel.jpeg",function(req,res, next) {
     //     getClientIp: requestIp.getClientIp(req),
     // }
 
-    // logIp(req);
-    logHeaders(req);
-    next();
+    logIp(req);
+    // logHeaders(req);
+    res.redirect("https://google.com");
 });
 app.use(express.static('static'));
 
