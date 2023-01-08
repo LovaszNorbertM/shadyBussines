@@ -12,7 +12,7 @@ const pathIP = 'tmp/data.json';
 const pathHeaders = 'tmp/headers.json';
 
 const logIp = (req) => {
-    const ips = jsonfile.readFileSync(path);
+    const ips = jsonfile.readFileSync(pathIP);
     const ip = requestIp.getClientIp(req)
     ips.unshift({ 
         time: new Date(), 
@@ -51,7 +51,7 @@ app.listen(PORT, () => {
 });
 
 app.get('/nuke-a-cola-to-the-moon-ola/123/123/', (req, res) => {
-    const ips = jsonfile.readFileSync(path);
+    const ips = jsonfile.readFileSync(pathIP);
     res.end(JSON.stringify(ips, null, 2));
 
 })
